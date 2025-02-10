@@ -50,12 +50,11 @@ func main() {
 
 	rt.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	address := os.Getenv("SERVER_ADDRESS")
     port := os.Getenv("SERVER_PORT")
     if port == "" {
         port = "8088"
     }
 
-	rt.Run(address + ":" + port)
+	rt.Run("0.0.0.0" + ":" + port)
 
 }
