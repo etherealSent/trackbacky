@@ -37,9 +37,9 @@ services:
     ports:
       - "8089:8080"  # Swagger UI running on port 8089
     environment:
-      SWAGGER_JSON: /swagger.json
+      SWAGGER_JSON=/usr/share/nginx/html/swagger.json
     volumes:
-      - ./swagger.json:/usr/share/nginx/html/swagger.json
+      - ./cmd/main/docs/swagger.json:/usr/share/nginx/html/swagger.json
     networks:
       - dev
 

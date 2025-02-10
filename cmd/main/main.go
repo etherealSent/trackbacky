@@ -38,7 +38,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	rt.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	rt.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	address := os.Getenv("SERVER_ADDRESS")
     port := os.Getenv("SERVER_PORT")
