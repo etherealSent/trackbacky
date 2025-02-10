@@ -2,7 +2,7 @@ package app
 
 import (
 	"awesomeProject/web-service-gin/internal/services"
-	trackinfo "awesomeProject/web-service-gin/internal/structs"
+    "awesomeProject/web-service-gin/internal/structs"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -146,8 +146,8 @@ func isValidURL(str string) bool {
 // @Produce      json
 // @Param        request body GetSongRequest true  "JSON URL трека"
 // @Success      200   {object} trackinfo.TrackInfo "Информация о треке"
-// @Failure      400   {object} gin.H "Некорректный запрос"
-// @Failure      404   {object} gin.H "Трек не найден"
+// @Failure      400   {object} trackinfo.ErrorResponse  "Некорректный запрос"
+// @Failure      404   {object} trackinfo.ErrorResponse  "Трек не найден"
 // @Router       /getsong [post]
 func GetSong(c *gin.Context) {
 	var requestData GetSongRequest
@@ -157,15 +157,15 @@ func GetSong(c *gin.Context) {
 		return
 	}
 
-	if requestData.URL == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "URL is required"})
-		return
-	}
+    if requestData.URL == "" {
+        c.JSON(http.StatusBadRequest, trackinfo.ErrorResponse{Error: "URL is required"})
+        return
+    }
 
-	if !isValidURL(requestData.URL) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid URL format"})
-		return
-	}
+    if !isValidURL(requestData.URL) {
+        c.JSON(http.StatusBadRequest, trackinfo.ErrorResponse{Error: "Invalid URL format"})
+        return
+    }
 
 	fmt.Println("Полученный URL:", requestData.URL)
 

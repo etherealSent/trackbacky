@@ -1,4 +1,4 @@
-package track_info
+package trackinfo
 
 type TrackInfo struct {
 	Data struct {
@@ -15,4 +15,9 @@ type TrackInfo struct {
 			VkMusicUrl     string `json:"vk_music_url"`
 		} `json:"links"`
 	} `json:"data"`
+}
+
+// ErrorResponse represents the error response
+type ErrorResponse struct {
+    Error string `json:"error"`
 }

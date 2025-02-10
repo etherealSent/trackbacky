@@ -1,0 +1,91 @@
+definitions:
+  app.GetSongRequest:
+    properties:
+      url:
+        example: https://music.apple.com/song/697195787
+        type: string
+    type: object
+  trackinfo.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  trackinfo.TrackInfo:
+    properties:
+      data:
+        properties:
+          artist:
+            type: string
+          cover_url:
+            type: string
+          id:
+            type: integer
+          links:
+            properties:
+              apple_music_url:
+                type: string
+              deezer_url:
+                type: string
+              spotify_url:
+                type: string
+              vk_music_url:
+                type: string
+              yandex_music_url:
+                type: string
+            type: object
+          preview:
+            type: string
+          title:
+            type: string
+        type: object
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger API
+  version: "2.0"
+paths:
+  /getsong:
+    post:
+      consumes:
+      - application/json
+      description: Возвращает информацию о музыкальном треке по переданной ссылке.
+      parameters:
+      - description: JSON URL трека
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/app.GetSongRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Информация о треке
+          schema:
+            $ref: '#/definitions/trackinfo.TrackInfo'
+        "400":
+          description: Некорректный запрос
+          schema:
+            $ref: '#/definitions/trackinfo.ErrorResponse'
+        "404":
+          description: Трек не найден
+          schema:
+            $ref: '#/definitions/trackinfo.ErrorResponse'
+      summary: Получение информации о треке
+      tags:
+      - songs
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
