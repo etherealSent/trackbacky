@@ -45,7 +45,8 @@ func main() {
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
-		AllowCredentials: true,
+		ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
 	}))
 
 	rt.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://176.114.67.228:8089/swagger/doc.json")))
