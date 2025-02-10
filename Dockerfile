@@ -1,8 +1,8 @@
 FROM golang:1.23
 
-WORKDIR /internal
+WORKDIR /app
 COPY go.mod go.sum ./
-COPY cmd .
+RUN go mod download
 
 RUN go mod tidy
 
@@ -12,4 +12,4 @@ RUN go build -o server ./cmd/main/main.go
 
 EXPOSE 8088
 
-CMD ["/internal/server"]
+CMD ["/app/server"]

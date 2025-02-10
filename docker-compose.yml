@@ -1,20 +1,59 @@
+version: '3.8'
+
 services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf:ro'
+    networks:
+      - dev
+    depends_on:
+      - gin-server
+
   gin-server:
     build: .
     ports:
       - "8088:8088"
     restart: always
-    volumes:
-      - .:/app
     environment:
       - GIN_MODE=release
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=tracks_db
+    networks:
+      - dev
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://${SERVER_ADDRESS}:8088 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 
   db:
-    image: postgres
+    image: postgres:latest
     restart: always
     environment:
       POSTGRES_DB: tracks_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: p4ssw0rd
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  dev:
+
+volumes:
+  db_data:

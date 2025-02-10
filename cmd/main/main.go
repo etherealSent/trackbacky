@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"os"
 )
 
 // @title           Swagger API
@@ -21,7 +22,6 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host       localhost:8088
 // @securityDefinitions.basic  BasicAuth
 
 // @externalDocs.description  OpenAPI
@@ -40,6 +40,12 @@ func main() {
 
 	rt.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	rt.Run("localhost:8088")
+	address := os.Getenv("SERVER_ADDRESS")
+    port := os.Getenv("SERVER_PORT")
+    if port == "" {
+        port = "8088"
+    }
+
+	rt.Run(address + ":" + port)
 
 }
