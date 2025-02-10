@@ -48,7 +48,7 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	rt.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	rt.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, ginSwagger.URL("http://176.114.67.228:8088/swagger/doc.json")))
 
     port := os.Getenv("SERVER_PORT")
     if port == "" {
