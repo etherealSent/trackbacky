@@ -5,8 +5,8 @@ import (
 	_ "awesomeProject/web-service-gin/cmd/main/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+    swaggerFiles "github.com/swaggo/files"
+    ginSwagger "github.com/swaggo/gin-swagger"
 	"os"
 )
 
@@ -27,6 +27,11 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
+
+	err := godotenv.Load()
+    if err != nil {
+        log.Fatal("Error loading .env file")
+    }
 
 	rt := gin.Default()
 
