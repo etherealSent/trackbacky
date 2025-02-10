@@ -10,7 +10,6 @@ import (
 	"os"
 	"github.com/joho/godotenv"
     "log"
-	"./docs" 
 )
 
 // @title           Swagger Example API
